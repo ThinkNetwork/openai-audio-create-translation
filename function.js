@@ -1,4 +1,4 @@
-window.function = async function(api_key, audio_file, model, prompt, response_format, temperature, timestamp_granularities) {
+window.function = async function(api_key, audio_file, model, prompt, response_format, temperature) {
     // Validate API Key
     if (!api_key.value) {
         return "Error: OpenAI API Key is required.";
@@ -21,18 +21,6 @@ window.function = async function(api_key, audio_file, model, prompt, response_fo
     if (prompt.value) formData.append("prompt", prompt.value);
     if (response_format.value) formData.append("response_format", response_format.value);
     if (temperature.value) formData.append("temperature", temperature.value);
-    if (timestamp_granularities.value) {
-        try {
-            const parsedTimestamps = JSON.parse(timestamp_granularities.value);
-            if (Array.isArray(parsedTimestamps)) {
-                parsedTimestamps.forEach(granularity => formData.append("timestamp_granularities[]", granularity));
-            } else {
-                return "Error: timestamp_granularities must be a JSON array.";
-            }
-        } catch (e) {
-            return "Error: Invalid JSON format for timestamp_granularities.";
-        }
-    }
 
     // API endpoint URL
     const apiUrl = "https://api.openai.com/v1/audio/translations";
